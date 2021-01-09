@@ -1,0 +1,1 @@
+{"access-token":"S8jBwZ8et2e8n0X6Zf6Nqg","client":"ATCbj4AlsrV7zhOvqlf_KQ","uid":"ali@example.com"}
