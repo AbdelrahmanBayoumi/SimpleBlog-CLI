@@ -2,51 +2,51 @@ require 'httparty'
 require 'json'
 
 class User
-    @@access_token = nil
-    @@client = nil
-    @@uid = nil
+    @access_token = nil
+    @client = nil
+    @uid = nil
     def initialize(email: nil, phone: nil, password: nil, password_confirmation: nil, first_name: nil, last_name: nil, gender: nil, address: nil)
-        @@email = email
-        @@phone = phone
-        @@password = password
-        @@password_confirmation = password_confirmation
-        @@first_name = first_name
-        @@last_name = last_name
-        @@gender = gender
-        @@address = address
+        @email = email
+        @phone = phone
+        @password = password
+        @password_confirmation = password_confirmation
+        @first_name = first_name
+        @last_name = last_name
+        @gender = gender
+        @address = address
     end
 
     def convert_json
-        {"email" => @@email,
-        "phone" => @@phone,
-        "password" => @@password,
-        "password_confirmation" => @@password_confirmation,
-        "first_name" => @@first_name,
-        "last_name" => @@last_name,
-        "gender" => @@gender,
-        "address" => @@address}
+        {"email" => @email,
+        "phone" => @phone,
+        "password" => @password,
+        "password_confirmation" => @password_confirmation,
+        "first_name" => @first_name,
+        "last_name" => @last_name,
+        "gender" => @gender,
+        "address" => @address}
     end
     
     def sign_up(user)
         data = {"user": user.convert_json}.to_json
         response = HTTParty.post('https://secure-reef-98071.herokuapp.com/api/v1/users/sign_up',
             body: data, headers: {'Content-Type' => 'application/json'})
-        @@access_token = response.headers["access-token"]
-        @@client = response.headers["client"]
-        @@uid = response.headers["uid"]
-        token = {'access-token' => @@access_token, 'client' => @@client, 'uid' => @@uid}.to_json
+        @access_token = response.headers["access-token"]
+        @client = response.headers["client"]
+        @uid = response.headers["uid"]
+        token = {'access-token' => @access_token, 'client' => @client, 'uid' => @uid}.to_json
         File.write("token.txt", token)
         return response.body
     end
 
     def sign_in
-        data = {"user": {"email": @@email, "password": @@password}}.to_json
+        data = {"user": {"email": @email, "password": @password}}.to_json
         response = HTTParty.post('https://secure-reef-98071.herokuapp.com/api/v1/users/sign_in',
             body: data, headers: {'Content-Type' => 'application/json'})
-        @@access_token = response.headers["access-token"]
-        @@client = response.headers["client"]
-        @@uid = response.headers["uid"]
-        token = {'access-token' => @@access_token, 'client' => @@client, 'uid' => @@uid}.to_json
+        @access_token = response.headers["access-token"]
+        @client = response.headers["client"]
+        @uid = response.headers["uid"]
+        token = {'access-token' => @access_token, 'client' => @client, 'uid' => @uid}.to_json
         File.write("token.txt", token)
         return response.body
     end

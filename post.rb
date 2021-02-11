@@ -3,16 +3,16 @@ require 'json'
 
 class Post
     def initialize(title: nil, body: nil, all_tags: nil)
-        @@title = title
-        @@body = body
-        @@all_tags = all_tags
+        @title = title
+        @body = body
+        @all_tags = all_tags
     end
 
     def convert_json
         {
-            "title" => @@title,
-            "body" => @@body,
-            "all_tags" => @@all_tags
+            "title" => @title,
+            "body" => @body,
+            "all_tags" => @all_tags
         }
     end
 
@@ -20,7 +20,6 @@ class Post
         data = {"post": post.convert_json}.to_json
         token = JSON.parse(File.read("token.txt"))
         token['Content-Type'] = 'application/json'
-        puts data, token
         response = HTTParty.post('https://secure-reef-98071.herokuapp.com/api/v1/posts/', body: data,
             headers: token)
         return response.body
